@@ -1,70 +1,48 @@
+import React from 'react'
+import { Routes, Route, NavLink } from 'react-router-dom'
+import Sidebar from './components/Sidebar'
+import Topbar from './components/Topbar'
+import Dashboard from './components/Dashboard'
+import AutomationBuilder from './components/AutomationBuilder'
+import ModelManager from './components/ModelManager'
+import LogsMonitor from './components/LogsMonitor'
+import Settings from './components/Settings'
+
 function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
-      {/* Subtle pattern overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(59,130,246,0.05),transparent_50%)]"></div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-white">
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute -top-24 -left-24 h-96 w-96 bg-cyan-500/10 blur-3xl rounded-full" />
+        <div className="absolute -bottom-24 -right-24 h-[28rem] w-[28rem] bg-purple-500/10 blur-3xl rounded-full" />
+      </div>
 
-      <div className="relative min-h-screen flex items-center justify-center p-8">
-        <div className="max-w-2xl w-full">
-          {/* Header with Flames icon */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center justify-center mb-6">
-              <img
-                src="/flame-icon.svg"
-                alt="Flames"
-                className="w-24 h-24 drop-shadow-[0_0_25px_rgba(59,130,246,0.5)]"
-              />
-            </div>
+      <div className="relative z-10 flex">
+        <Sidebar />
+        <main className="flex-1 min-h-screen">
+          <Topbar />
+          <Routes>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/automations" element={<AutomationBuilder />} />
+            <Route path="/models" element={<ModelManager />} />
+            <Route path="/logs" element={<LogsMonitor />} />
+            <Route path="/settings" element={<Settings />} />
+            <Route path="*" element={<div className="p-8">Not Found</div>} />
+          </Routes>
+        </main>
+      </div>
 
-            <h1 className="text-5xl font-bold text-white mb-4 tracking-tight">
-              Flames Blue
-            </h1>
-
-            <p className="text-xl text-blue-200 mb-6">
-              Build applications through conversation
-            </p>
-          </div>
-
-          {/* Instructions */}
-          <div className="bg-slate-800/50 backdrop-blur-sm border border-blue-500/20 rounded-2xl p-8 shadow-xl mb-6">
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                1
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Describe your idea</h3>
-                <p className="text-blue-200/80 text-sm">Use the chat panel on the left to tell the AI what you want to build</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4 mb-6">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                2
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Watch it build</h3>
-                <p className="text-blue-200/80 text-sm">Your app will appear in this preview as the AI generates the code</p>
-              </div>
-            </div>
-
-            <div className="flex items-start gap-4">
-              <div className="flex-shrink-0 w-8 h-8 bg-blue-500 text-white rounded-lg flex items-center justify-center font-bold">
-                3
-              </div>
-              <div>
-                <h3 className="font-semibold text-white mb-1">Refine and iterate</h3>
-                <p className="text-blue-200/80 text-sm">Continue the conversation to add features and make changes</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Footer */}
-          <div className="text-center">
-            <p className="text-sm text-blue-300/60">
-              No coding required • Just describe what you want
-            </p>
-          </div>
-        </div>
+      <div className="lg:hidden fixed bottom-4 left-1/2 -translate-x-1/2 z-20">
+        <nav className="flex items-center gap-2 bg-white/10 backdrop-blur-xl border border-white/10 rounded-2xl px-3 py-2">
+          {[
+            { to: '/', label: 'Home' },
+            { to: '/automations', label: 'Automations' },
+            { to: '/models', label: 'Models' },
+            { to: '/logs', label: 'Logs' },
+            { to: '/settings', label: 'Settings' },
+          ].map((i) => (
+            <NavLink key={i.to} to={i.to} className={({isActive})=>`px-3 py-1.5 rounded-xl text-xs ${isActive?'bg-white/20 text-white':'text-white/70'}`}>{i.label}</NavLink>
+          ))}
+        </nav>
       </div>
     </div>
   )
